@@ -8,3 +8,4 @@ RUN apt-get update && \
 COPY timeCalculator.py /home/timeCalculator.py
 
 RUN chmod +x /home/timeCalculator.py
+CMD python3 /home/timeCalculator.py
