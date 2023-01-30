@@ -26,7 +26,6 @@ jobs:
       - name: Deploy timeCalculator
         run: |
           source iaac-venv/bin/activate
-          cd /home/
           python3 timeCalculator.py
     
       - name: Run pyATS unit-tests 
