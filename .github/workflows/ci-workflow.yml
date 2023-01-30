@@ -28,6 +28,15 @@ jobs:
           push: true
           tags: uerdemk1/time_calculator:deneme
 
+      - name: Check out repository
+        uses: actions/checkout@v3
+        with:
+          repository: uerdemk1/time_calculator
+          ref: v1.0
+          token: ${{ secrets.DOCKERHUB_TOKEN }}
+          path: ./.github/actions/my-private-repo
+      - name: Run my action
+        uses: ./.github/actions/my-private-repo/my-action
 
   pull_images_and_run:  
     runs-on: ubuntu-latest
