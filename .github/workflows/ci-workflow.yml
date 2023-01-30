@@ -27,7 +27,7 @@ jobs:
           context: .
           push: true
           builder: ${{ steps.buildx.outputs.name }}
-          tags: uerdem1/app:latest
+          tags: uerdemk1/time_calculator/app:latest
   ci-demo:
     runs-on: ubuntu-latest
 
