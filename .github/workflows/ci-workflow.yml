@@ -27,12 +27,7 @@ jobs:
           context: .
           push: true
           tags: uerdemk1/time_calculator:deneme
-      
-      
-  compile:
-        name: Compile site assets
-        runs-on: ubuntu-latest
-        steps:
-          - name: Run the build process with Docker
-            uses: docker://uerdemk1/time_calculator:deneme
+          
+      - name: Run the build process with Docker
+        uses: docker://uerdemk1/time_calculator:deneme
   
