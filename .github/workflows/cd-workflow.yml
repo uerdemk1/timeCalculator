@@ -22,8 +22,6 @@ jobs:
           registry: ghcr.io
           username: ${{ GIT_USERNAME }}
           password: ${{ GIT_TOKEN }}
-
-
   cd-demo:
     runs-on: ubuntu-latest
 

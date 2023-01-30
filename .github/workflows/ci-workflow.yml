@@ -22,9 +22,7 @@ jobs:
           registry: ghcr.io
           username: ${{ GIT_USERNAME }}
           password: ${{ GIT_TOKEN }}
-
-
-  cd-demo:
+  ci-demo:
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
