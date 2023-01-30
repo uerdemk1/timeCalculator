@@ -28,11 +28,6 @@ jobs:
           push: true
           tags: uerdemk1/time_calculator:deneme
 
-  pull_images_and_run:  
-    runs-on: ubuntu-latest
-    container: uerdemk1/time_calculator:deneme
-    steps:
       - name: Run the build process with Docker
-        uses: docker://uerdemk1/time_calculator:deneme
         run: docker run deneme
   
