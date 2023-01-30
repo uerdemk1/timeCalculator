@@ -26,7 +26,7 @@ jobs:
         id: meta
         uses: docker/login-action@dckr_pat_MkFeZiNOrJe25FymIi9M5Kg3irQ
         with:
-          images: ${{ time_calculator }}/${{ secrets.IMAGE_NAME }}
+          images: time_calculator/${{ secrets.IMAGE_NAME }}
 
       - name: Build and push Docker image
         uses: docker/login-action@v1
