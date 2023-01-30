@@ -28,10 +28,18 @@ jobs:
           push: true
           tags: uerdemk1/time_calculator:deneme
 
-      - name: Run the build process with Docker
-        uses: docker/login-action@v2
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Login to GitHub Container Registry
+        uses: ./
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          registry: ghcr.io
+          username: ${{ secrets.DOCKERHUB_USERNAME}}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-        run: docker run uerdemk/time_calculator/deneme
+      
+      - name: Pull private image
+        run: |
+          docker run uerdemk1/time_calculator:deneme
+        
   
