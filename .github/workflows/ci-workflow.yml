@@ -1,29 +1,30 @@
 name: ci-workflow
 
 on:
-  pull_request:
+  push:
     branches: [ main ]
 
 env:
-  VIRL2_URL: ${{ secrets.VIRL2_URL }}
-  VIRL2_USER: ${{ secrets.VIRL2_USER }}
-  VIRL2_PASS: ${{ secrets.VIRL2_PASS }}
+  TIMEZONE: ${{ secrets.TIMEZONE }}
   
-  VIRL2_NODES_USER: ${{ secrets.VIRL2_NODES_USER }}
-  VIRL2_NODES_PASS: ${{ secrets.VIRL2_NODES_PASS }}
-  VIRL2_NODES_BECOME: ${{ secrets.VIRL2_NODES_BECOME }}
-  
-  VIRL2_CONTROLLER_USER: ${{ secrets.VIRL2_CONTROLLER_USER }}
-  VIRL2_CONTROLLER_PASS: ${{ secrets.VIRL2_CONTROLLER_PASS }}
-  VIRL2_CONTROLLER_HOST: ${{ secrets.VIRL2_CONTROLLER_HOST }}
-  VIRL2_CONTROLLER_PORT: ${{ secrets.VIRL2_CONTROLLER_PORT }}
-  
-  ANSIBLE_PROXY_COMMAND: ${{ secrets.ANSIBLE_PROXY_COMMAND }}
-
-  #ASA_CONFIG: ${{ secrets.ASA_CONFIG }}
-
 jobs:
-  ci-demo:
+
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+      
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ GIT_USERNAME }}
+          password: ${{ GIT_TOKEN }}
+
+
+  cd-demo:
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -36,36 +37,15 @@ jobs:
           source iaac-venv/bin/activate
           python3 -m pip install --upgrade pip
           sudo apt-get install python3-setuptools
-          pip3 install wheel
-          pip3 install virl2_client          
-          pip3 install paramiko
-          pip3 install nested-lookup
-          pip3 install ansible
-          ansible-galaxy collection install cisco.ios
-          pip3 install pyats[full]
-          pip install pyaml-env
-          pip install python-dotenv
+          pip3 install requests
           
-      - name: Start CML simulation
+      - name: Deploy timeCalculator
         run: |
           source iaac-venv/bin/activate
-          python3 cml_wrapper.py
-          
-      - name: Deploy ansible playbook
-        run: |
-          source iaac-venv/bin/activate
-          export ANSIBLE_PROXY_COMMAND="-o ProxyCommand='sshpass -p $VIRL2_CONTROLLER_PASS ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p -q $VIRL2_CONTROLLER_USER@$VIRL2_CONTROLLER_HOST -p $VIRL2_CONTROLLER_PORT'"
-          cd ./deployment
-          ansible-playbook ci.yaml
+          python3 timeCalculator.py
     
       - name: Run pyATS unit-tests 
         run: |
           source iaac-venv/bin/activate
           cd ./testing
-          pyats run job ci_task.py
-      
-      - name: Stop CML simulation
-        run: |
-          source iaac-venv/bin/activate
-          python3 cml_wrapper.py --action destroy
-        if: ${{ always() }}
+          pyats run job dev_task.py
