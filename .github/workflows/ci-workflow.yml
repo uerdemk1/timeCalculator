@@ -27,28 +27,11 @@ jobs:
           context: .
           push: true
           tags: uerdemk1/time_calculator:deneme
-  ci-demo:
+      
+      
+  compile:
+    name: Compile site assets
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be execuuted as part of the job
-    steps:      
-      - uses: actions/checkout@v2
+    container:
+        image: uerdemk1/time_calculator:deneme
   
-      - name: Set up a python virtual environment
-        run: | 
-          python3 -m venv iaac-venv
-          source iaac-venv/bin/activate
-          python3 -m pip install --upgrade pip
-          sudo apt-get install python3-setuptools
-          pip3 install requests
-          
-      - name: Deploy timeCalculator
-        run: |
-          source iaac-venv/bin/activate
-          python3 timeCalculator.py
-    
-      - name: Run pyATS unit-tests 
-        run: |
-          source iaac-venv/bin/activate
-          cd ./testing
-          pyats run job dev_task.py
