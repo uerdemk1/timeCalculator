@@ -30,8 +30,9 @@ jobs:
       
       
   compile:
-    name: Compile site assets
-    runs-on: ubuntu-latest
-    container:
-        image: uerdemk1/time_calculator:deneme
+        name: Compile site assets
+        runs-on: ubuntu-latest
+        steps:
+          - name: Run the build process with Docker
+            uses: docker://uerdemk1/time_calculator:deneme
   
