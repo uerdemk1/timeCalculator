@@ -29,5 +29,9 @@ jobs:
           tags: uerdemk1/time_calculator:deneme
 
       - name: Run the build process with Docker
-        run: docker run deneme
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: docker run uerdemk/time_calculator/deneme
   
