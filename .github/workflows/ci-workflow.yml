@@ -21,6 +21,19 @@ jobs:
           registry: ghcr.io
           username: ${{ secrets.GIT_USERNAME }}
           password: ${{ secrets.GIT_TOKEN }}
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/login-action@v1
+        with:
+          images: ${{ secrets.REGISTRY }}/${{ secrets.IMAGE_NAME }}
+
+      - name: Build and push Docker image
+        uses: docker/login-action@v1
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
   ci-demo:
     runs-on: ubuntu-latest
 
