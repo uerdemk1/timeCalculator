@@ -31,7 +31,7 @@ jobs:
   ci-demo:
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    # Steps represent a sequence of tasks that will be execuuted as part of the job
     steps:      
       - uses: actions/checkout@v2
   
